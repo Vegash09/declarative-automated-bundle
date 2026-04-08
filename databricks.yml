@@ -33,12 +33,12 @@ targets:
   prod:
     mode: production
     workspace:
-      # host: https://adb-7405617499680447.7.azuredatabricks.net
+      host: https://adb-7405608605218130.10.azuredatabricks.net/
       # We explicitly deploy to /Workspace/Users/sce21cs116@sairamtap.edu.in to make sure we only have a single copy.
-      root_path: /Workspace/Users/sce21cs116@sairamtap.edu.in/.bundle/${bundle.name}/${bundle.target}
+      root_path: /Workspace/Shared/Deployment
     # variables:
     #   catalog: edwin_data_workspace
     #   schema: prod
     permissions:
-      - group_name: dataengineering
+      - group_name: vsh.vegashp@gmail.com
         level: CAN_MANAGE
