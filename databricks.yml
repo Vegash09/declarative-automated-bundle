@@ -19,6 +19,9 @@ sync:
 #     description: The catalog to use
 #   schema:
 #     description: The schema to use
+permissions:
+  - user_name: vsh.vegashp@gmail.com
+    level: CAN_MANAGE
 
 targets:
   dev:
@@ -45,5 +48,5 @@ targets:
     #   catalog: edwin_data_workspace
     #   schema: prod
     permissions:
-      - group_name: vsh.vegashp@gmail.com
+      - user_name: vsh.vegashp@gmail.com
         level: CAN_MANAGE
