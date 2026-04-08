@@ -22,7 +22,8 @@ sync:
 permissions:
   - user_name: sce21cs048@sairamtap.edu.in
     level: CAN_MANAGE
-
+  - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
+    level: CAN_MANAGE
 targets:
   dev:
     # The default target uses 'mode: development' to create a development copy.
