@@ -20,7 +20,7 @@ sync:
 #   schema:
 #     description: The schema to use
 permissions:
-  - user_name: vsh.vegashp@gmail.com
+  - user_name: sce21cs048@sairamtap.edu.in
     level: CAN_MANAGE
 
 targets:
