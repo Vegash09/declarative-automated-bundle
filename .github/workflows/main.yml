@@ -1,0 +1,81 @@
+name: sample-poc # name of the workflow
+ 
+on:
+  workflow_dispatch: # manually run this pipeline ( workflow )
+ 
+permissions: # permissions for actions
+  contents: read # for actions/checkout
+ 
+defaults:
+  run:
+    working-directory: . # default working directory for all run steps ( . root directory of repo )
+jobs:
+#==========================================================================
+# JOB: Validate Databricks asset bundle
+#==========================================================================  
+  validate: # JOB ID
+    name: Validate databricks asset bundle # JOB NAME
+    runs-on: ubuntu-latest # runner used in the job
+    env:
+        DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+        DATABRICKS_CLIENT_SECRET: yjQ8Q~1KrFHm14sd3iyvme1EOiXu55ArzAD3Zccn
+        DATABRICKS_HOST: https://adb-7405608605218130.10.azuredatabricks.net/ 
+
+    continue-on-error: false # if job fails, stop the workflow
+    steps:
+ 
+      # pull code from repo to runner ( )
+      - name: Checkout code # pull code from repo to runner ( )
+        uses: actions/checkout@v4
+ 
+      # install databricks cli  
+      - name: Setup Databricks CLI
+        uses: databricks/setup-cli@main
+        
+      - name: Ensure .py files are Databricks notebooks (ubantu-latest)
+        run: |
+          Get-ChildItem -Path "${{ github.workspace }}" -Filter "*.py" -Recurse | ForEach-Object {
+            ("# Databricks notebook source`n" + (Get-Content $_.FullName -Raw)) | Set-Content $_.FullName
+          }
+        shell: pwsh
+
+      # validate databricks asset bundle  
+      - name: Validate bundle
+        run: databricks bundle validate
+        env:
+          DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+          DATABRICKS_CLIENT_SECRET: yjQ8Q~1KrFHm14sd3iyvme1EOiXu55ArzAD3Zccn
+          DATABRICKS_HOST: https://adb-7405608605218130.10.azuredatabricks.net/    
+#==========================================================================
+# JOB: Deploy Databricks asset bundle
+#==========================================================================  
+  deploy: # JOB ID
+    name: Deploy databricks asset bundle # JOB NAME
+    if: ${{ needs.validate.result == 'success' }}
+    needs: validate # this job depends on validate job
+    runs-on: ubuntu-latest # runner used in the job
+    continue-on-error: false # if job fails, stop the workflow
+    steps:
+ 
+      # pull code from repo to runner ( )
+      - name: Checkout code # pull code from repo to runner ( )
+        uses: actions/checkout@v4
+ 
+      # install databricks cli  
+      - name: Setup Databricks CLI
+        uses: databricks/setup-cli@main
+        
+      - name: Ensure .py files are Databricks notebooks (ubantu-latest)
+        run: |
+          Get-ChildItem -Path "${{ github.workspace }}" -Filter "*.py" -Recurse | ForEach-Object {
+            ("# Databricks notebook source`n" + (Get-Content $_.FullName -Raw)) | Set-Content $_.FullName
+          }
+        shell: pwsh
+      # validate databricks asset bundle  
+      - name: Deploy bundle
+        run: databricks bundle deploy
+        env:
+          # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+          DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+          DATABRICKS_CLIENT_SECRET: yjQ8Q~1KrFHm14sd3iyvme1EOiXu55ArzAD3Zccn
+          DATABRICKS_HOST: https://adb-7405608605218130.10.azuredatabricks.net/
