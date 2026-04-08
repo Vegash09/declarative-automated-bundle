@@ -19,11 +19,6 @@ sync:
 #     description: The catalog to use
 #   schema:
 #     description: The schema to use
-permissions:
-  - user_name: sce21cs048@sairamtap.edu.in
-    level: CAN_MANAGE
-  - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
-    level: CAN_MANAGE
 targets:
   dev:
     # The default target uses 'mode: development' to create a development copy.
@@ -49,5 +44,7 @@ targets:
     #   catalog: edwin_data_workspace
     #   schema: prod
     permissions:
-      - user_name: vsh.vegashp@gmail.com
+      - user_name: sce21cs048@sairamtap.edu.in
+        level: CAN_MANAGE
+      - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
         level: CAN_MANAGE
