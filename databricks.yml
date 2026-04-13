@@ -29,6 +29,7 @@ targets:
     default: true
     workspace:
       host: https://adb-7405617499680447.7.azuredatabricks.net
+      root_path: /Workspace/Shared
     permissions:
       - user_name: sce21cs004@sairamtap.edu.in
         level: CAN_MANAGE
