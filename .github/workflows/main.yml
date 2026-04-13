@@ -11,10 +11,10 @@ defaults:
     working-directory: . # default working directory for all run steps ( . root directory of repo )
 jobs:
 #==========================================================================
-# JOB: Validate Databricks asset bundle
+# JOB: Validate Declarative Automation Bundles
 #==========================================================================  
   validate: # JOB ID
-    name: Validate databricks asset bundle # JOB NAME
+    name: Validate declarative automation bundles # JOB NAME
     runs-on: ubuntu-latest # runner used in the job
     env:
       ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
@@ -40,7 +40,7 @@ jobs:
           }
         shell: pwsh
 
-      # validate databricks asset bundle  
+      # validate Declarative Automation Bundles
       - name: Validate bundle
         run: databricks bundle validate -t prod
         env:
@@ -49,10 +49,10 @@ jobs:
           ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/   
 #==========================================================================
-# JOB: Deploy Databricks asset bundle
+# JOB: Deploy Declarative Automation Bundles
 #==========================================================================  
   deploy: # JOB ID
-    name: Deploy databricks asset bundle # JOB NAME
+    name: Deploy declarative automation bundles # JOB NAME
     if: ${{ needs.validate.result == 'success' }}
     needs: validate # this job depends on validate job
     runs-on: ubuntu-latest # runner used in the job
@@ -73,7 +73,7 @@ jobs:
             ("# Databricks notebook source`n" + (Get-Content $_.FullName -Raw)) | Set-Content $_.FullName
           }
         shell: pwsh
-      # validate databricks asset bundle  
+      # validate Declarative Automation Bundles
       - name: Deploy bundle
         run: databricks bundle deploy -t prod
         env:
