@@ -1,16 +1,7 @@
 name: sample-poc # name of the workflow
  
-on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: "Select Environment"
-        required: true
-        default: "qa"
-        type: choice
-        options:
-          - qa
-          - prod
+on: 
+  workflow_dispatch: # manually run this pipeline ( workflow )
  
 permissions: # permissions for actions
   contents: read # for actions/checkout
