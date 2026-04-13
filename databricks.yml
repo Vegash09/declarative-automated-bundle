@@ -2,7 +2,6 @@
 # See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
 bundle:
   name: pharma_dabs
-  uuid: 7de2b6f1-869f-4218-9aa5-7dbec2ef641b
 
 include:
   - dbx/*.yml
@@ -28,7 +27,7 @@ targets:
     mode: development
     default: true
     workspace:
-      host: https://adb-7405617499680447.7.azuredatabricks.net
+      host: https://adb-7405607349730837.17.azuredatabricks.net/
       root_path: /Workspace/Shared
     permissions:
       - user_name: sce21cs004@sairamtap.edu.in
@@ -43,7 +42,7 @@ targets:
   prod:
     mode: production
     workspace:
-      host: https://adb-7405617499680447.7.azuredatabricks.net
+      host: https://adb-7405607349730837.17.azuredatabricks.net/
       # We explicitly deploy to /Workspace/Users/sce21cs116@sairamtap.edu.in to make sure we only have a single copy.
       root_path: /Workspace/Shared/
     # variables:
