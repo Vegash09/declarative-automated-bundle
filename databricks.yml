@@ -40,17 +40,17 @@ targets:
     #   schema: ${workspace.current_user.short_name}
     # presets:
     #   artifacts_dynamic_version: true
-  # prod:
-  #   mode: production
-  #   workspace:
-  #     host: https://adb-7405608605218130.10.azuredatabricks.net/
-  #     # We explicitly deploy to /Workspace/Users/sce21cs116@sairamtap.edu.in to make sure we only have a single copy.
-  #     root_path: /Workspace/Shared/Deployment
-  #   # variables:
-  #   #   catalog: edwin_data_workspace
-  #   #   schema: prod
-  #   permissions:
-  #     - user_name: sce21cs048@sairamtap.edu.in
-  #       level: CAN_MANAGE
-  #     - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
-  #       level: CAN_MANAGE
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-7405617499680447.7.azuredatabricks.net
+      # We explicitly deploy to /Workspace/Users/sce21cs116@sairamtap.edu.in to make sure we only have a single copy.
+      root_path: /Workspace/Shared/
+    # variables:
+    #   catalog: edwin_data_workspace
+    #   schema: prod
+    permissions:
+      - user_name: sce21cs048@sairamtap.edu.in
+        level: CAN_MANAGE
+      - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
+        level: CAN_MANAGE

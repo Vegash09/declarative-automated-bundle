@@ -42,7 +42,7 @@ jobs:
 
       # validate databricks asset bundle  
       - name: Validate bundle
-        run: databricks bundle validate
+        run: databricks bundle validate -t prod
         env:
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
           ARM_CLIENT_SECRET: yjQ8Q~1KrFHm14sd3iyvme1EOiXu55ArzAD3Zccn
@@ -75,7 +75,7 @@ jobs:
         shell: pwsh
       # validate databricks asset bundle  
       - name: Deploy bundle
-        run: databricks bundle deploy
+        run: databricks bundle deploy -t prod
         env:
           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
