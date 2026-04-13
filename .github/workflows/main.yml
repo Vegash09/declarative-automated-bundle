@@ -19,7 +19,7 @@ jobs:
     env:
       ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
       ARM_CLIENT_SECRET: yjQ8Q~1KrFHm14sd3iyvme1EOiXu55ArzAD3Zccn
-      ARM_TENANT_ID: 852caa78-398c-4f05-8f13-bdbb6c2a23da
+      ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
       DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/  
 
     continue-on-error: false # if job fails, stop the workflow
@@ -46,7 +46,7 @@ jobs:
         env:
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
           ARM_CLIENT_SECRET: yjQ8Q~1KrFHm14sd3iyvme1EOiXu55ArzAD3Zccn
-          ARM_TENANT_ID: 852caa78-398c-4f05-8f13-bdbb6c2a23da
+          ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/   
 #==========================================================================
 # JOB: Deploy Databricks asset bundle
@@ -80,5 +80,5 @@ jobs:
           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
           ARM_CLIENT_SECRET: yjQ8Q~1KrFHm14sd3iyvme1EOiXu55ArzAD3Zccn
-          ARM_TENANT_ID: 852caa78-398c-4f05-8f13-bdbb6c2a23da
+          ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
