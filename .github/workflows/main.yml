@@ -1,4 +1,4 @@
-name: sample-poc # name of the workflow
+name: Declarative Automation Bundles  # name of the workflow
  
 on: 
   workflow_dispatch: # manually run this pipeline ( workflow )
