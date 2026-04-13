@@ -40,9 +40,47 @@ jobs:
           }
         shell: pwsh
 
+      - name: Create databricks.yml
+        run: |
+          cat <<EOF > databricks.yml
+          bundle:
+            name: pharma_dabs
+
+          include:
+            - dbx/*.yml
+            - dbx/*/*.yml
+
+          sync:
+            exclude:
+              - ".github"    
+              - "databricks.yml"
+
+          targets:
+            dev:
+              mode: development
+              default: true
+              workspace:
+                host: https://adb-7405607349730837.17.azuredatabricks.net/
+                root_path: /Workspace/Shared
+              permissions:
+                - user_name: sce21cs004@sairamtap.edu.in
+                  level: CAN_MANAGE
+
+            # prod:
+            #   mode: production
+            #   workspace:
+            #     host: https://adb-7405607349730837.17.azuredatabricks.net/
+            #     root_path: /Workspace/Shared/
+            #   permissions:
+            #     - user_name: sce21cs048@sairamtap.edu.in
+            #       level: CAN_MANAGE
+            #     - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
+            #       level: CAN_MANAGE
+          EOF
+
       # validate Declarative Automation Bundles
       - name: Validate bundle
-        run: databricks bundle validate -t prod
+        run: databricks bundle validate
         env:
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
           ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
@@ -75,7 +113,7 @@ jobs:
         shell: pwsh
       # validate Declarative Automation Bundles
       - name: Deploy bundle
-        run: databricks bundle deploy -t prod
+        run: databricks bundle deploy
         env:
           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
