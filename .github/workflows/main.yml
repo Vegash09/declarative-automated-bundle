@@ -112,6 +112,43 @@ jobs:
           }
         shell: pwsh
       # validate Declarative Automation Bundles
+      - name: Create databricks.yml
+        run: |
+          cat <<EOF > databricks.yml
+          bundle:
+            name: pharma_dabs
+
+          include:
+            - dbx/*.yml
+            - dbx/*/*.yml
+
+          sync:
+            exclude:
+              - ".github"    
+              - "databricks.yml"
+
+          targets:
+            dev:
+              mode: development
+              default: true
+              workspace:
+                host: https://adb-7405607349730837.17.azuredatabricks.net/
+                root_path: ~/Workspace/Shared/DABS/
+              permissions:
+                - user_name: sce21cs004@sairamtap.edu.in
+                  level: CAN_MANAGE
+
+            # prod:
+            #   mode: production
+            #   workspace:
+            #     host: https://adb-7405607349730837.17.azuredatabricks.net/
+            #     root_path: /Workspace/Shared/DABS/
+            #   permissions:
+            #     - user_name: sce21cs048@sairamtap.edu.in
+            #       level: CAN_MANAGE
+            #     - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
+            #       level: CAN_MANAGE
+          EOF
       - name: Deploy bundle
         run: databricks bundle deploy
         env:
