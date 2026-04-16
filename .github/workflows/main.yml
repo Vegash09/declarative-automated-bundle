@@ -151,7 +151,7 @@ jobs:
           EOF
 
       - name: Preparing the config file for deployment
-        run: databricks fs rm dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ -r
+        run: databricks fs rm dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ --recursive
         env:
           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
@@ -160,7 +160,7 @@ jobs:
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
 
       - name: Deploy config file to databricks volume
-        run: databricks fs cp ./config dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ -r
+        run: databricks fs cp ./config dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ --recursive
         env:
           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
