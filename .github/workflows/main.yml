@@ -149,11 +149,39 @@ jobs:
             #     - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
             #       level: CAN_MANAGE
           EOF
+
+      - name: Preparing the config file for deployment
+        run: databricks fs rm -r dbfs:/Volumes/sparktest_dev_catalog/dlt/config/
+        env:
+          # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
+          ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+          ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+          DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
+
+      - name: Deploy config file to databricks volume
+        run: databricks fs cp -r ./config dbfs:/Volumes/sparktest_dev_catalog/dlt/config/
+        env:
+          # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
+          ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+          ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+          DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
+
       - name: Deploy bundle
         run: databricks bundle deploy
         env:
           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
+          ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+          ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+          DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/  
+
+      - name: Deploy config file to databricks volume
+        run: databricks fs ls -r dbfs:/Volumes/sparktest_dev_catalog/dlt/config/
+        env:
+          # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
           ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
