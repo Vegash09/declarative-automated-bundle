@@ -74,13 +74,13 @@ jobs:
               permissions:
                 - user_name: sce21cs048@sairamtap.edu.in
                   level: CAN_MANAGE
-                - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
-                  level: CAN_MANAGE
+                # - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
+                #   level: CAN_MANAGE
           EOF
 
       # validate Declarative Automation Bundles
       - name: Validate bundle
-        run: databricks bundle validate
+        run: databricks bundle validate -t prod
         env:
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
           ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
@@ -146,8 +146,8 @@ jobs:
               permissions:
                 - user_name: sce21cs048@sairamtap.edu.in
                   level: CAN_MANAGE
-                - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
-                  level: CAN_MANAGE
+                # - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
+                #   level: CAN_MANAGE
           EOF
 
       - name: Preparing the config file for deployment
@@ -169,7 +169,7 @@ jobs:
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
 
       - name: Deploy bundle
-        run: databricks bundle deploy
+        run: databricks bundle deploy-t prod
         env:
           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
