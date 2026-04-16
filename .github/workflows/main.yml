@@ -177,7 +177,7 @@ jobs:
           ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/  
 
-      - name: Deploy config file to databricks volume
+      - name: Verify uploaded files in Databricks Volume
         run: databricks fs ls dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ -l
         env:
           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
