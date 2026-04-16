@@ -27,7 +27,7 @@ jobs:
  
       # pull code from repo to runner ( )
       - name: Checkout code # pull code from repo to runner ( )
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
  
       # install databricks cli  
       - name: Setup Databricks CLI
@@ -99,7 +99,7 @@ jobs:
  
       # pull code from repo to runner ( )
       - name: Checkout code # pull code from repo to runner ( )
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
  
       # install databricks cli  
       - name: Setup Databricks CLI
