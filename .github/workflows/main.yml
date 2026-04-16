@@ -151,7 +151,7 @@ jobs:
           EOF
 
       - name: Preparing the config file for deployment
-        run: databricks fs rm -r dbfs:/Volumes/sparktest_dev_catalog/dlt/config/
+        run: databricks fs rm dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ -r
         env:
           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
@@ -160,7 +160,7 @@ jobs:
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
 
       - name: Deploy config file to databricks volume
-        run: databricks fs cp -r ./config dbfs:/Volumes/sparktest_dev_catalog/dlt/config/
+        run: databricks fs cp ./config dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ -r
         env:
           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
@@ -178,7 +178,7 @@ jobs:
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/  
 
       - name: Deploy config file to databricks volume
-        run: databricks fs ls -r dbfs:/Volumes/sparktest_dev_catalog/dlt/config/
+        run: databricks fs ls dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ -l
         env:
           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
