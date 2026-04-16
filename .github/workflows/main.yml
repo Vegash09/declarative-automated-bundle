@@ -1,39 +1,43 @@
-name: Declarative Automation Bundles  # name of the workflow
- 
-on: 
-  workflow_dispatch: # manually run this pipeline ( workflow )
- 
-permissions: # permissions for actions
-  contents: read # for actions/checkout
- 
+name: Declarative Automation Bundles
+
+on:
+  workflow_dispatch:
+    inputs:
+      upload_config:
+        description: 'Upload config files to Databricks Volume?'
+        required: true
+        type: boolean
+        default: false  # ✅ Won't upload unless you check the box
+
+permissions:
+  contents: read
+
 defaults:
   run:
-    working-directory: . # default working directory for all run steps ( . root directory of repo )
+    working-directory: .
+
 jobs:
 #==========================================================================
 # JOB: Validate Declarative Automation Bundles
-#==========================================================================  
-  validate: # JOB ID
-    name: Validate declarative automation bundles # JOB NAME
-    runs-on: ubuntu-latest # runner used in the job
+#==========================================================================
+  validate:
+    name: Validate declarative automation bundles
+    runs-on: ubuntu-latest
     env:
-      ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
+      ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
       ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
       ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
-      DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/  
-
-    continue-on-error: false # if job fails, stop the workflow
+      DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
+    continue-on-error: false
     steps:
- 
-      # pull code from repo to runner ( )
-      - name: Checkout code # pull code from repo to runner ( )
+
+      - name: Checkout code
         uses: actions/checkout@v4.2.2
- 
-      # install databricks cli  
+
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
-        
-      - name: Ensure .py files are Databricks notebooks (ubantu-latest)
+
+      - name: Ensure .py files are Databricks notebooks
         run: |
           Get-ChildItem -Path "${{ github.workspace }}" -Filter "*.py" -Recurse | ForEach-Object {
             ("# Databricks notebook source`n" + (Get-Content $_.FullName -Raw)) | Set-Content $_.FullName
@@ -52,7 +56,7 @@ jobs:
 
           sync:
             exclude:
-              - ".github"    
+              - ".github"
               - "databricks.yml"
 
           targets:
@@ -61,7 +65,7 @@ jobs:
               default: true
               workspace:
                 host: https://adb-7405607349730837.17.azuredatabricks.net/
-                root_path: /Workspace/Shared/DABS/
+                root_path: ~/Workspace/Shared/DABS/
               permissions:
                 - user_name: sce21cs004@sairamtap.edu.in
                   level: CAN_MANAGE
@@ -70,48 +74,39 @@ jobs:
               mode: production
               workspace:
                 host: https://adb-7405607349730837.17.azuredatabricks.net/
-                root_path: ~/Workspace/Shared/DABS/
+                root_path: /Workspace/Shared/DABS/
               permissions:
                 - user_name: sce21cs048@sairamtap.edu.in
                   level: CAN_MANAGE
-                # - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
-                #   level: CAN_MANAGE
           EOF
 
-      # validate Declarative Automation Bundles
       - name: Validate bundle
         run: databricks bundle validate -t prod
-        env:
-          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
-          ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
-          ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
-          DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/   
+
 #==========================================================================
 # JOB: Deploy Declarative Automation Bundles
-#==========================================================================  
-  deploy: # JOB ID
-    name: Deploy declarative automation bundles # JOB NAME
+#==========================================================================
+  deploy:
+    name: Deploy declarative automation bundles
     if: ${{ needs.validate.result == 'success' }}
-    needs: validate # this job depends on validate job
-    runs-on: ubuntu-latest # runner used in the job
-    continue-on-error: false # if job fails, stop the workflow
+    needs: validate
+    runs-on: ubuntu-latest
+    continue-on-error: false
     steps:
- 
-      # pull code from repo to runner ( )
-      - name: Checkout code # pull code from repo to runner ( )
+
+      - name: Checkout code
         uses: actions/checkout@v4.2.2
- 
-      # install databricks cli  
+
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
-        
-      - name: Ensure .py files are Databricks notebooks (ubantu-latest)
+
+      - name: Ensure .py files are Databricks notebooks
         run: |
           Get-ChildItem -Path "${{ github.workspace }}" -Filter "*.py" -Recurse | ForEach-Object {
             ("# Databricks notebook source`n" + (Get-Content $_.FullName -Raw)) | Set-Content $_.FullName
           }
         shell: pwsh
-      # validate Declarative Automation Bundles
+
       - name: Create databricks.yml
         run: |
           cat <<EOF > databricks.yml
@@ -124,7 +119,7 @@ jobs:
 
           sync:
             exclude:
-              - ".github"    
+              - ".github"
               - "databricks.yml"
 
           targets:
@@ -146,42 +141,234 @@ jobs:
               permissions:
                 - user_name: sce21cs048@sairamtap.edu.in
                   level: CAN_MANAGE
-                # - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
-                #   level: CAN_MANAGE
           EOF
 
-      - name: Preparing the config file for deployment
+      # ✅ Only runs if checkbox is checked
+      - name: Delete existing config files
+        if: ${{ inputs.upload_config == true }}
         run: databricks fs rm dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ --recursive
         env:
-          # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
-          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
+          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
           ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
 
-      - name: Deploy config file to databricks volume
+      # ✅ Only runs if checkbox is checked
+      - name: Upload config files to Databricks Volume
+        if: ${{ inputs.upload_config == true }}
         run: databricks fs cp ./config dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ --recursive
         env:
-          # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
-          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
+          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+          ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+          ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+          DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
+
+      # ✅ Only runs if checkbox is checked
+      - name: Verify uploaded files in Databricks Volume
+        if: ${{ inputs.upload_config == true }}
+        run: databricks fs ls dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ -l
+        env:
+          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
           ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
 
       - name: Deploy bundle
-        run: databricks bundle deploy-t prod
+        run: databricks bundle deploy -t prod
         env:
-          # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
-          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
-          ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
-          ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
-          DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/  
-
-      - name: Verify uploaded files in Databricks Volume
-        run: databricks fs ls dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ -l
-        env:
-          # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
           ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
           ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
+
+
+
+
+
+# name: Declarative Automation Bundles  # name of the workflow
+ 
+# on: 
+#   workflow_dispatch: # manually run this pipeline ( workflow )
+ 
+# permissions: # permissions for actions
+#   contents: read # for actions/checkout
+ 
+# defaults:
+#   run:
+#     working-directory: . # default working directory for all run steps ( . root directory of repo )
+# jobs:
+# #==========================================================================
+# # JOB: Validate Declarative Automation Bundles
+# #==========================================================================  
+#   validate: # JOB ID
+#     name: Validate declarative automation bundles # JOB NAME
+#     runs-on: ubuntu-latest # runner used in the job
+#     env:
+#       ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
+#       ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+#       ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+#       DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/  
+
+#     continue-on-error: false # if job fails, stop the workflow
+#     steps:
+ 
+#       # pull code from repo to runner ( )
+#       - name: Checkout code # pull code from repo to runner ( )
+#         uses: actions/checkout@v4.2.2
+ 
+#       # install databricks cli  
+#       - name: Setup Databricks CLI
+#         uses: databricks/setup-cli@main
+        
+#       - name: Ensure .py files are Databricks notebooks (ubantu-latest)
+#         run: |
+#           Get-ChildItem -Path "${{ github.workspace }}" -Filter "*.py" -Recurse | ForEach-Object {
+#             ("# Databricks notebook source`n" + (Get-Content $_.FullName -Raw)) | Set-Content $_.FullName
+#           }
+#         shell: pwsh
+
+#       - name: Create databricks.yml
+#         run: |
+#           cat <<EOF > databricks.yml
+#           bundle:
+#             name: pharma_dabs
+
+#           include:
+#             - dbx/*.yml
+#             - dbx/*/*.yml
+
+#           sync:
+#             exclude:
+#               - ".github"    
+#               - "databricks.yml"
+
+#           targets:
+#             dev:
+#               mode: development
+#               default: true
+#               workspace:
+#                 host: https://adb-7405607349730837.17.azuredatabricks.net/
+#                 root_path: /Workspace/Shared/DABS/
+#               permissions:
+#                 - user_name: sce21cs004@sairamtap.edu.in
+#                   level: CAN_MANAGE
+
+#             prod:
+#               mode: production
+#               workspace:
+#                 host: https://adb-7405607349730837.17.azuredatabricks.net/
+#                 root_path: ~/Workspace/Shared/DABS/
+#               permissions:
+#                 - user_name: sce21cs048@sairamtap.edu.in
+#                   level: CAN_MANAGE
+#                 # - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
+#                 #   level: CAN_MANAGE
+#           EOF
+
+#       # validate Declarative Automation Bundles
+#       - name: Validate bundle
+#         run: databricks bundle validate -t prod
+#         env:
+#           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
+#           ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+#           ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+#           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/   
+# #==========================================================================
+# # JOB: Deploy Declarative Automation Bundles
+# #==========================================================================  
+#   deploy: # JOB ID
+#     name: Deploy declarative automation bundles # JOB NAME
+#     if: ${{ needs.validate.result == 'success' }}
+#     needs: validate # this job depends on validate job
+#     runs-on: ubuntu-latest # runner used in the job
+#     continue-on-error: false # if job fails, stop the workflow
+#     steps:
+ 
+#       # pull code from repo to runner ( )
+#       - name: Checkout code # pull code from repo to runner ( )
+#         uses: actions/checkout@v4.2.2
+ 
+#       # install databricks cli  
+#       - name: Setup Databricks CLI
+#         uses: databricks/setup-cli@main
+        
+#       - name: Ensure .py files are Databricks notebooks (ubantu-latest)
+#         run: |
+#           Get-ChildItem -Path "${{ github.workspace }}" -Filter "*.py" -Recurse | ForEach-Object {
+#             ("# Databricks notebook source`n" + (Get-Content $_.FullName -Raw)) | Set-Content $_.FullName
+#           }
+#         shell: pwsh
+#       # validate Declarative Automation Bundles
+#       - name: Create databricks.yml
+#         run: |
+#           cat <<EOF > databricks.yml
+#           bundle:
+#             name: pharma_dabs
+
+#           include:
+#             - dbx/*.yml
+#             - dbx/*/*.yml
+
+#           sync:
+#             exclude:
+#               - ".github"    
+#               - "databricks.yml"
+
+#           targets:
+#             dev:
+#               mode: development
+#               default: true
+#               workspace:
+#                 host: https://adb-7405607349730837.17.azuredatabricks.net/
+#                 root_path: ~/Workspace/Shared/DABS/
+#               permissions:
+#                 - user_name: sce21cs004@sairamtap.edu.in
+#                   level: CAN_MANAGE
+
+#             prod:
+#               mode: production
+#               workspace:
+#                 host: https://adb-7405607349730837.17.azuredatabricks.net/
+#                 root_path: /Workspace/Shared/DABS/
+#               permissions:
+#                 - user_name: sce21cs048@sairamtap.edu.in
+#                   level: CAN_MANAGE
+#                 # - service_principal_name: 2118cc40-71a3-4e53-92ca-a60f61806747
+#                 #   level: CAN_MANAGE
+#           EOF
+
+#       - name: Preparing the config file for deployment
+#         run: databricks fs rm dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ --recursive
+#         env:
+#           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+#           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
+#           ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+#           ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+#           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
+
+#       - name: Deploy config file to databricks volume
+#         run: databricks fs cp ./config dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ --recursive
+#         env:
+#           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+#           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
+#           ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+#           ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+#           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
+
+#       - name: Deploy bundle
+#         run: databricks bundle deploy-t prod
+#         env:
+#           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+#           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747     
+#           ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+#           ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+#           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/  
+
+#       - name: Verify uploaded files in Databricks Volume
+#         run: databricks fs ls dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ -l
+#         env:
+#           # BUNDLE_VAR_DATABRICKS_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+#           ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+#           ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+#           ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+#           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
