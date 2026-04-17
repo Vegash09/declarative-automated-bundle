@@ -59,39 +59,56 @@ jobs:
               - ".github"
               - "databricks.yml"
           variables:
-            # Your Unity Catalog
-            catalog: "sparktest_dev_catalog"
-            schema: "dlt"
-
-            # Your SQL Warehouse ID
-            warehouse_id: "b21becd881d8b748"
-
-            # Base Volume Path
-            volume_path: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/"
+            catalog:
+              default: "sparktest_dev_catalog"
+            schema:
+              default: "dlt"
+            warehouse_id:
+              default: "b21becd881d8b748"
+            volume_path:
+              default: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/"
 
             # ─── Actuals Pipeline ───
-            source_file_path: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-actual-cost/"
-            bronze_table_name: "actuals_bronze"
-            silver_table_name: "actuals_silver"
-            gold_table_name:   "actuals_gold"
-            billing_period_depth: 5
-            ingestion_date_depth: 6
+            source_file_path:
+              default: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-actual-cost/"
+            bronze_table_name:
+              default: "actuals_bronze"
+            silver_table_name:
+              default: "actuals_silver"
+            gold_table_name:
+              default: "actuals_gold"
+            billing_period_depth:
+              default: 5
+            ingestion_date_depth:
+              default: 6
 
-            # ─── Amortized Pipeline (PAUSED) ───
-            amortized_source_file_path: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-amortized-cost/"
-            amortized_bronze_table_name: "amortized_bronze"
-            amortized_silver_table_name: "amortized_silver"
-            amortized_gold_table_name:   "amortized_gold"
-            amortized_billing_period_depth: 5
-            amortized_ingestion_date_depth: 6
+            # ─── Amortized Pipeline ───
+            amortized_source_file_path:
+              default: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-amortized-cost/"
+            amortized_bronze_table_name:
+              default: "amortized_bronze"
+            amortized_silver_table_name:
+              default: "amortized_silver"
+            amortized_gold_table_name:
+              default: "amortized_gold"
+            amortized_billing_period_depth:
+              default: 5
+            amortized_ingestion_date_depth:
+              default: 6
 
-            # ─── FOCUS Pipeline (PAUSED) ───
-            focus_source_file_path: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-focus-cost/"
-            focus_bronze_table_name: "focus_bronze"
-            focus_silver_table_name: "focus_silver"
-            focus_gold_table_name:   "focus_gold"
-            focus_billing_period_depth: 5
-            focus_ingestion_date_depth: 6
+            # ─── FOCUS Pipeline ───
+            focus_source_file_path:
+              default: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-focus-cost/"
+            focus_bronze_table_name:
+              default: "focus_bronze"
+            focus_silver_table_name:
+              default: "focus_silver"
+            focus_gold_table_name:
+              default: "focus_gold"
+            focus_billing_period_depth:
+              default: 5
+            focus_ingestion_date_depth:
+              default: 6
 
           targets:
             dev:
@@ -157,39 +174,56 @@ jobs:
               - "databricks.yml"
 
           variables:
-            # Your Unity Catalog
-            catalog: "sparktest_dev_catalog"
-            schema: "dlt"
-
-            # Your SQL Warehouse ID
-            warehouse_id: "b21becd881d8b748"
-
-            # Base Volume Path
-            volume_path: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/"
+            catalog:
+              default: "sparktest_dev_catalog"
+            schema:
+              default: "dlt"
+            warehouse_id:
+              default: "b21becd881d8b748"
+            volume_path:
+              default: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/"
 
             # ─── Actuals Pipeline ───
-            source_file_path: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-actual-cost/"
-            bronze_table_name: "actuals_bronze"
-            silver_table_name: "actuals_silver"
-            gold_table_name:   "actuals_gold"
-            billing_period_depth: 5
-            ingestion_date_depth: 6
+            source_file_path:
+              default: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-actual-cost/"
+            bronze_table_name:
+              default: "actuals_bronze"
+            silver_table_name:
+              default: "actuals_silver"
+            gold_table_name:
+              default: "actuals_gold"
+            billing_period_depth:
+              default: 5
+            ingestion_date_depth:
+              default: 6
 
-            # ─── Amortized Pipeline (PAUSED) ───
-            amortized_source_file_path: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-amortized-cost/"
-            amortized_bronze_table_name: "amortized_bronze"
-            amortized_silver_table_name: "amortized_silver"
-            amortized_gold_table_name:   "amortized_gold"
-            amortized_billing_period_depth: 5
-            amortized_ingestion_date_depth: 6
+            # ─── Amortized Pipeline ───
+            amortized_source_file_path:
+              default: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-amortized-cost/"
+            amortized_bronze_table_name:
+              default: "amortized_bronze"
+            amortized_silver_table_name:
+              default: "amortized_silver"
+            amortized_gold_table_name:
+              default: "amortized_gold"
+            amortized_billing_period_depth:
+              default: 5
+            amortized_ingestion_date_depth:
+              default: 6
 
-            # ─── FOCUS Pipeline (PAUSED) ───
-            focus_source_file_path: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-focus-cost/"
-            focus_bronze_table_name: "focus_bronze"
-            focus_silver_table_name: "focus_silver"
-            focus_gold_table_name:   "focus_gold"
-            focus_billing_period_depth: 5
-            focus_ingestion_date_depth: 6
+            # ─── FOCUS Pipeline ───
+            focus_source_file_path:
+              default: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-focus-cost/"
+            focus_bronze_table_name:
+              default: "focus_bronze"
+            focus_silver_table_name:
+              default: "focus_silver"
+            focus_gold_table_name:
+              default: "focus_gold"
+            focus_billing_period_depth:
+              default: 5
+            focus_ingestion_date_depth:
+              default: 6
 
           targets:
             dev:
