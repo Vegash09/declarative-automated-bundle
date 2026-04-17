@@ -2,5 +2,5 @@ resources:
   dashboards:
     azure_cost_dashboard:
       display_name: 'Azure Cost Dashboard'
-      file_path: dbx/notebooks/azure_cost_dashboard.lvdash.json
+      file_path: ../src/azure_cost_dashboard.lvdash.json
       warehouse_id: ${var.warehouse_id}
