@@ -7,7 +7,7 @@ resources:
       serverless: true
       libraries:
         - notebook:
-            path: ../src/azure_cost_pipeline.ipynb
+            path: ../notebooks/azure_cost_pipeline.ipynb
 
       configuration:
         bundle.sourcePath: ${workspace.file_path}/src
