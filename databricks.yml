@@ -11,13 +11,13 @@ sync:
 variables:
   catalog:
     description: "Catalog where volume and tables will be configured"
-    default: sparktest_dev_catalog
+    default: sparktest_bill_catalog
   schema:
     description: "Schema where volume and tables will be configured"
-    default: billing_schema
+    default: bill
   volume_name:
     description: "Name of volume"
-    default: billing_volume
+    default: cost
   bronze_table_name:
     description: "Name of bronze table"
     default: actuals_bronze
