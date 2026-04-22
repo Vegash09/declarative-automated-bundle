@@ -87,3 +87,13 @@ targets:
     default: true
     variables:
       warehouse_id: "095518321a584a65"
+      catalog: sparktest_bill_catalog
+      schema: bill
+      volume_name: cost
+      bronze_table_name: actuals_bronze
+      silver_table_name: actuals_silver
+      gold_table_name: actuals_gold
+      volume_path: /Volumes/${var.catalog}/${var.schema}/${var.volume_name}/
+      source_file_path: ${var.volume_path}/*/*/*/*.parquet
+      billing_period_depth: 7
+      ingestion_date_depth: 8
