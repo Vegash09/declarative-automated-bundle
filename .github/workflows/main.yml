@@ -89,7 +89,7 @@ jobs:
               description: "Pipeline uses split_part to extract ingestion date (e.g. 202509081628) from file source_file_path"  
               default: 8
             warehouse_id:
-              description: "f30ef5b04d396f73"
+              default: "f30ef5b04d396f73"
 
           targets:
             dev:
@@ -185,7 +185,7 @@ jobs:
               description: "Pipeline uses split_part to extract ingestion date (e.g. 202509081628) from file source_file_path"  
               default: 8
             warehouse_id:
-              description: "f30ef5b04d396f73"
+              default: "f30ef5b04d396f73"
 
 
           targets:
