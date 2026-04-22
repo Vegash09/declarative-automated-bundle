@@ -46,7 +46,7 @@ jobs:
 
       - name: Create databricks.yml
         run: |
-          cat <<EOF > databricks.yml
+          cat <<'EOF' > databricks.yml
           bundle:
             name: pharma_dabs
 
@@ -169,7 +169,7 @@ jobs:
 
       - name: Create databricks.yml
         run: |
-          cat <<EOF > databricks.yml
+          cat <<'EOF' > databricks.yml
           bundle:
             name: pharma_dabs
 
