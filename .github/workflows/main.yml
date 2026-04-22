@@ -205,7 +205,7 @@ jobs:
                 host: https://adb-7405607349730837.17.azuredatabricks.net/
                 root_path: /Workspace/Shared/DABS/
               permissions:
-                - user_name: sce21cs048@sairamtap.edu.in
+                - user_name: sce21cs004@sairamtap.edu.in
                   level: CAN_MANAGE
           EOF
 
