@@ -91,34 +91,6 @@ jobs:
               warehouse_id:
                 description: "f30ef5b04d396f73"
 
-            # ─── Amortized Pipeline ───
-            amortized_source_file_path:
-              default: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-amortized-cost/"
-            amortized_bronze_table_name:
-              default: "amortized_bronze"
-            amortized_silver_table_name:
-              default: "amortized_silver"
-            amortized_gold_table_name:
-              default: "amortized_gold"
-            amortized_billing_period_depth:
-              default: 5
-            amortized_ingestion_date_depth:
-              default: 6
-
-            # ─── FOCUS Pipeline ───
-            focus_source_file_path:
-              default: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-focus-cost/"
-            focus_bronze_table_name:
-              default: "focus_bronze"
-            focus_silver_table_name:
-              default: "focus_silver"
-            focus_gold_table_name:
-              default: "focus_gold"
-            focus_billing_period_depth:
-              default: 5
-            focus_ingestion_date_depth:
-              default: 6
-
           targets:
             dev:
               mode: development
@@ -215,33 +187,6 @@ jobs:
               warehouse_id:
                 description: "f30ef5b04d396f73"
 
-            # ─── Amortized Pipeline ───
-            amortized_source_file_path:
-              default: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-amortized-cost/"
-            amortized_bronze_table_name:
-              default: "amortized_bronze"
-            amortized_silver_table_name:
-              default: "amortized_silver"
-            amortized_gold_table_name:
-              default: "amortized_gold"
-            amortized_billing_period_depth:
-              default: 5
-            amortized_ingestion_date_depth:
-              default: 6
-
-            # ─── FOCUS Pipeline ───
-            focus_source_file_path:
-              default: "abfss://sparktest-dev-container@sparktestws.dfs.core.windows.net/azure-focus-cost/"
-            focus_bronze_table_name:
-              default: "focus_bronze"
-            focus_silver_table_name:
-              default: "focus_silver"
-            focus_gold_table_name:
-              default: "focus_gold"
-            focus_billing_period_depth:
-              default: 5
-            focus_ingestion_date_depth:
-              default: 6
 
           targets:
             dev:
