@@ -24,9 +24,11 @@ jobs:
     name: Validate declarative automation bundles
     runs-on: ubuntu-latest
     env:
-      ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
-      ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
-      ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+      # ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+      # ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+      # ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+      DATABRICKS_CLIENT_ID: 0f9cd218-d98e-4108-8616-e539352a77ab
+      DATABRICKS_CLIENT_SECRET: dose4f8ced21f623fe49607ea4cc53c0994f
       DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
     continue-on-error: false
     steps:
@@ -214,9 +216,11 @@ jobs:
         if: ${{ inputs.upload_config == true }}
         run: databricks fs rm dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ --recursive
         env:
-          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
-          ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
-          ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+          # ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+          # ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+          # ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+          DATABRICKS_CLIENT_ID: 0f9cd218-d98e-4108-8616-e539352a77ab
+          DATABRICKS_CLIENT_SECRET: dose4f8ced21f623fe49607ea4cc53c0994f
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
 
       # ✅ Only runs if checkbox is checked
@@ -224,9 +228,11 @@ jobs:
         if: ${{ inputs.upload_config == true }}
         run: databricks fs cp ./config dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ --recursive
         env:
-          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
-          ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
-          ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+          # ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+          # ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+          # ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+          DATABRICKS_CLIENT_ID: 0f9cd218-d98e-4108-8616-e539352a77ab
+          DATABRICKS_CLIENT_SECRET: dose4f8ced21f623fe49607ea4cc53c0994f
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
 
       # ✅ Only runs if checkbox is checked
@@ -234,17 +240,16 @@ jobs:
         if: ${{ inputs.upload_config == true }}
         run: databricks fs ls dbfs:/Volumes/sparktest_dev_catalog/dlt/config/ -l
         env:
-          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
-          ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
-          ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
-          DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
+
 
       - name: Deploy bundle
         run: databricks bundle deploy -t prod
         env:
-          ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
-          ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
-          ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+          # ARM_CLIENT_ID: 2118cc40-71a3-4e53-92ca-a60f61806747
+          # ARM_CLIENT_SECRET: _Nv8Q~yj2E4mv8vVjORdRtgdpPxJPuXS2vep5b1P
+          # ARM_TENANT_ID: 8d970696-f884-42b5-a8ea-742bf9d0d576
+          DATABRICKS_CLIENT_ID: 0f9cd218-d98e-4108-8616-e539352a77ab
+          DATABRICKS_CLIENT_SECRET: dose4f8ced21f623fe49607ea4cc53c0994f
           DATABRICKS_HOST: https://adb-7405607349730837.17.azuredatabricks.net/
 
 
