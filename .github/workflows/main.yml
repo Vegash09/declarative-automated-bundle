@@ -103,6 +103,8 @@ jobs:
               permissions:
                 - user_name: sce21cs004@sairamtap.edu.in
                   level: CAN_MANAGE
+                - service_principal_name: 0f9cd218-d98e-4108-8616-e539352a77ab
+                  level: CAN_MANAGE
 
             prod:
               mode: production
@@ -111,6 +113,8 @@ jobs:
                 root_path: /Workspace/Shared/DABS/
               permissions:
                 - user_name: sce21cs004@sairamtap.edu.in
+                  level: CAN_MANAGE
+                - service_principal_name: 0f9cd218-d98e-4108-8616-e539352a77ab
                   level: CAN_MANAGE
           EOF
 
@@ -200,6 +204,8 @@ jobs:
               permissions:
                 - user_name: sce21cs004@sairamtap.edu.in
                   level: CAN_MANAGE
+                - service_principal_name: 0f9cd218-d98e-4108-8616-e539352a77ab
+                  level: CAN_MANAGE
 
             prod:
               mode: production
@@ -208,6 +214,8 @@ jobs:
                 root_path: /Workspace/Shared/DABS/
               permissions:
                 - user_name: sce21cs004@sairamtap.edu.in
+                  level: CAN_MANAGE
+                - service_principal_name: 0f9cd218-d98e-4108-8616-e539352a77ab
                   level: CAN_MANAGE
           EOF
 
